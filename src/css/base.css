@@ -30,3 +30,12 @@ main {
 main:has(.back-link) {
   text-align: center;
 }
+
+.form {
+margin: 300px, 35px, 60px, 15px;
+}
+
+.btn {
+  background-color: #4E75FF;
+  color: white;
+}
