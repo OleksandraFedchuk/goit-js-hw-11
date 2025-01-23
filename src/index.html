@@ -9,14 +9,16 @@
   </head>
   <body>
     <main>
-      <form class="form">
-        <input type="text" class="input">
+      <form class="form" autocomplete="off">
+        <input type="text" class="input" name="query" placeholder="Search images...">
         <button type="submit" class="btn">Search</button>
-        <div class="loader"></div>
       </form>
+      <div class="gallery"></div>
+      <span class="loader hidden"></span>
     </main>
     <script type="module" src="./main.js"></script>
     <script type="module" src="./js/pixabay-api.js"></script>
     <script type="module" src="./js/render-functions.js"></script>
+
   </body>
 </html> 

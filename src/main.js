@@ -1,64 +1,77 @@
 
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
+import { fetchPhotosByQuery } from "./js/pixabay-api.js"
+import { galleryCard, renderImages } from "./js/render-functions.js"
 
 
 
-
-const elements = {
+const refs = {
     button : document.querySelector('.btn'),
     form: document.querySelector('.form'),
-    input: document.querySelector('.input')
+    input: document.querySelector('.input'),
+    gallery: document.querySelector('.gallery'),
+    loader: document.querySelector(".loader"),
 }
 
-console.log(elements.button);
-console.log(elements.form);
-console.log(elements.input);
 
-elements.button.addEventListener("submit", handlerEvent);
+
+refs.form.addEventListener("submit", handlerEvent);
 
 function handlerEvent(event){
     event.preventDefault();
 
+    const formQuery = event.currentTarget.elements.query.value;
 
-}
-
-
- // const createMarkup = ({})
-
-// fetch('https://pixabay.com/api/?key=${api})'.then((result) => {
-//     if (!result.ok){ 
-//         iziToast.show({
-//         class: "wave-stroke",   
-//         message: '🚫Sorry, there are no images matching your search query. Please try again!',
-//         position: "topRight",
-//         closeOnEscape: true,
-//         closeOnClick: true,
-//         backgroundColor: "#e3545b",
-//     })
-        
-//     }
-// }))
-
-function getPicturesBy(query){
-    const api = "48352138-8c9803781c6b3191e7f9ec647";
-    return fetch(`https://pixabay.com/api?key=${api}&q=${query}`).then((result) => {console.log(result);
-if(!result.ok){
-    throw new Error(result.status);
-    } 
-    return result.json(); 
-}).then((data) => {console.log(data);
-}).catch((error) => {console.log(error)})
-}
-
-
-getPicturesBy("blue+car").then((data) => {console.log(data)}).catch(error => {
+if(formQuery === ""){
     iziToast.show({
-        class:"wave-stroke",
-        message:"🚫Sorry, there are no images matching your search query. Please try again!",
+        class: "wave-stroke",   
+        message: '🚫Sorry, there are no images matching your search query. Please try again!',
         position: "topRight",
-        closeOnEscape: true , 
-        closeOnClick: true, 
-        backgroundColor:" #e3545b",
+        closeOnEscape: true,
+        closeOnClick: true,
+        backgroundColor: "#e3545b",
 });
+return;
+}
+
+console.log(formQuery);
+
+
+refs.gallery.innerHTML = "";
+showLoader();
+
+fetchPhotosByQuery(formQuery)
+.then(data =>{
+    if(data.hits.length === 0){
+        iziToast.show({
+            title:'No results',
+            message:'Sorry, there are no images matching your search query. Please try again!',
+            color:'#e3545b',
+            position:"topRight"
+        });
+    }else{
+        renderImages(data.hits, refs.gallery)
+    }
+})
+ .catch(error =>{
+    iziToast.show({
+        title:"Error",
+        message:"Something went wrong. Please try again later.",
+        color:'#e3545b',
+        position:"topRight"
+    });
+ })
+.finally(() => {
+    hideLoader();
+    refs.form.reset();
 });
+}
+
+function showLoader() {
+    refs.loader.classList.remove("hidden");
+  }
+  
+  function hideLoader() {
+    refs.loader.classList.add("hidden");
+  }
