@@ -7,18 +7,18 @@ const lightbox = new SimpleLightbox('.gallery a', {
 });
 
 
-export function galleryCard({webformatURL,largeImageUR,tags,likes,views,comments,downloads}){
+export function galleryCard({webformatURL,largeImageURL,tags,likes,views,comments,downloads}){
     return `<div class="card">
     <div class="card-apperance">
-<a href="${largeImageUR}" class="card-link">
+<a href="${largeImageURL}" class="card-link">
 <img src="${webformatURL}" alt="${tags}">
 </a>
 </div>
 <div class="card-discription">
-<p class="discription">Likes${likes}</p>
-<p class="discription">Views${views}</p>
-<p class="discription">Comments${comments}</p>
-<p class="discription">Downloads${downloads}</p>
+<p class="discription">Likes:${likes}</p>
+<p class="discription">Views:${views}</p>
+<p class="discription">Comments:${comments}</p>
+<p class="discription">Downloads:${downloads}</p>
 </div>
 </div>`
 };
