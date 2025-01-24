@@ -35,7 +35,6 @@ if(formQuery === ""){
 return;
 }
 
-console.log(formQuery);
 
 
 refs.gallery.innerHTML = "";
